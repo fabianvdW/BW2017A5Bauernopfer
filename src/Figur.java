@@ -2,7 +2,6 @@ public class Figur {
     private boolean color; // true = white; false = black
 
     /**
-     *
      * @param color, true = white Bauer; false = black Turm
      */
     public Figur(boolean color) {

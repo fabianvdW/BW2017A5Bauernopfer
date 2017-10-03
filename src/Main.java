@@ -19,22 +19,23 @@ public class Main {
         f.setVisible(true);
         teilaufgabe1(m);
     }
-    public static void teilaufgabe1(Map m){
-        for(int i=0;i<8;i++){
-            m.spawnBauer(i,i);
+
+    public static void teilaufgabe1(Map m) {
+        for (int i = 0; i < 8; i++) {
+            m.spawnBauer(i, i);
         }
-        m.spawnTurm(0,7);
-        boolean bauerZug=true;
-        int turmGezogen=0;
-        int bauernGezogen=0;
-        int anzDurchgaenge=0;
-        System.out.println("Turm gefangen: "+m.isTurmGefangen());
-        while(!m.isTurmGefangen()){
-            if(bauerZug){
-                if(m.TurmisCatchAble()){
-                    Position p= m.getCatchPosition();
-                    m.doMove(new Zug(p.posx,p.posy,m.getTurmPosition().posx,m.getTurmPosition().posy));
-                }else {
+        m.spawnTurm(0, 7);
+        boolean bauerZug = true;
+        int turmGezogen = 0;
+        int bauernGezogen = 0;
+        int anzDurchgaenge = 0;
+        System.out.println("Turm gefangen: " + m.isTurmGefangen());
+        while (!m.isTurmGefangen()) {
+            if (bauerZug) {
+                if (m.TurmisCatchAble()) {
+                    Position p = m.getCatchPosition();
+                    m.doMove(new Zug(p.posx, p.posy, m.getTurmPosition().posx, m.getTurmPosition().posy));
+                } else {
                     Position p = m.getTurmPosition();
                     Position p2 = m.getBauerPositions().get(0);
                     if (p2.posx <= p.posx && p2.posy < p.posy) {
@@ -50,30 +51,32 @@ public class Main {
                         anzDurchgaenge++;
                     }
                 }
-            }else{
-                Position p= m.getTurmPosition();
+            } else {
+                Position p = m.getTurmPosition();
                 Position p2 = m.getBauerPositions().get(0);
-                int modulo=1;
+                int modulo = 1;
                 if (!(p2.posx <= p.posx && p2.posy < p.posy)) {
-                    modulo=0;
+                    modulo = 0;
                 }
-                if(turmGezogen%2==modulo){
-                    m.doMove(new Zug(p.posx,p.posy,p.posx-1,p.posy));
-                }else{
-                    m.doMove(new Zug(p.posx,p.posy,p.posx+1,p.posy));
+                if (turmGezogen % 2 == modulo) {
+                    m.doMove(new Zug(p.posx, p.posy, p.posx - 1, p.posy));
+                } else {
+                    m.doMove(new Zug(p.posx, p.posy, p.posx + 1, p.posy));
                 }
                 turmGezogen++;
             }
-            bauerZug=!bauerZug;
+            bauerZug = !bauerZug;
         }
         System.out.println("Turm gefangen!");
     }
 }
-class Position{
+
+class Position {
     int posx;
     int posy;
-    public Position(int posx, int posy){
-        this.posx=posx;
-        this.posy=posy;
+
+    public Position(int posx, int posy) {
+        this.posx = posx;
+        this.posy = posy;
     }
 }

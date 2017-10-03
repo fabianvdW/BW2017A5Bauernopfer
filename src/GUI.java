@@ -17,7 +17,7 @@ public class GUI extends JPanel {
         this.t = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (atMove + 1 == map.getVerlauf().size()||map.getVerlauf().size()==0) {
+                if (atMove + 1 == map.getVerlauf().size() || map.getVerlauf().size() == 0) {
                     System.out.println("Finished with redo");
                     t.stop();
                 } else {
@@ -40,10 +40,10 @@ public class GUI extends JPanel {
                 //g.setColor(Color.BLACK);
                 //g.drawRect(i * 50, n * 50, 50, 50);
                 if (color) {
-                    g.setColor(new Color(255,211,155));
+                    g.setColor(new Color(255, 211, 155));
                     color = false;
                 } else {
-                    g.setColor(new Color(205,133,63));
+                    g.setColor(new Color(205, 133, 63));
                     color = true;
                 }
                 g.fillRect(i * 50, n * 50, 50, 50);

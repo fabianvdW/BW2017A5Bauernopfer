@@ -5,6 +5,7 @@ public class Map {
     private Figur[][] initalMap; // wird nur zur Visualsierung, um den Initalzustand zu haben, benutzt
     private ArrayList<Zug> verlauf; // für die Visualisierung
     private boolean isTurmGefangen;
+
     public Map() {
         this.reset();
     }
@@ -17,37 +18,39 @@ public class Map {
         initalMap = new Figur[8][8];
         verlauf = new ArrayList<Zug>();
     }
-    public Position getTurmPosition(){
-        for(int i=0;i<8;i++){
-            for(int k=0;k<8;k++){
-                if(map[i][k]!=null &&!map[i][k].isWhite()){
-                    return new Position(i,k);
+
+    public Position getTurmPosition() {
+        for (int i = 0; i < 8; i++) {
+            for (int k = 0; k < 8; k++) {
+                if (map[i][k] != null && !map[i][k].isWhite()) {
+                    return new Position(i, k);
                 }
             }
         }
         System.exit(2);
         return null;
     }
-    public ArrayList<Position> getBauerPositions(){
+
+    public ArrayList<Position> getBauerPositions() {
         ArrayList<Position> positions = new ArrayList<Position>();
-        for(int i=0;i<8;i++){
-            for(int k=0;k<8;k++){
-                if(map[i][k]!=null && map[i][k].isWhite()){
-                    positions.add(new Position(i,k));
+        for (int i = 0; i < 8; i++) {
+            for (int k = 0; k < 8; k++) {
+                if (map[i][k] != null && map[i][k].isWhite()) {
+                    positions.add(new Position(i, k));
                 }
             }
         }
-        return  positions;
+        return positions;
     }
+
     /**
-     *
      * @param posx
      * @param posy
      */
-    public void spawnBauer(int posx, int posy){
-        if(posx<=7 && posx>=0 && posy<=7 &&posy>=0) {
+    public void spawnBauer(int posx, int posy) {
+        if (posx <= 7 && posx >= 0 && posy <= 7 && posy >= 0) {
             if (map[posx][posy] == null) {
-                map[posx][posy]= new Figur(true);
+                map[posx][posy] = new Figur(true);
                 initalMap[posx][posy] = map[posx][posy];
                 return;
             }
@@ -55,16 +58,17 @@ public class Map {
         System.exit(1);
     }
 
-    public void spawnTurm(int posx, int posy){
-        if(posx<=8 && posx>=0 && posy<=8 &&posy>=0) {
+    public void spawnTurm(int posx, int posy) {
+        if (posx <= 8 && posx >= 0 && posy <= 8 && posy >= 0) {
             if (map[posx][posy] == null) {
-                map[posx][posy]= new Figur(false);
+                map[posx][posy] = new Figur(false);
                 initalMap[posx][posy] = map[posx][posy];
                 return;
             }
         }
         System.exit(1);
     }
+
     /**
      * Generiert eine bestimmte Anzahl an Bauern und einen Turm und setzt diese zufällig auf das Spielbrett, nachdem das Spielbrett davor zurückgesetzt wurde
      *
@@ -111,26 +115,29 @@ public class Map {
         map[x][y] = new Figur(false);
         initalMap[x][y] = map[x][y];
     }
-    public boolean TurmisCatchAble(){
-        Position p= this.getTurmPosition();
-        ArrayList<Position> positions= this.getBauerPositions();
-        for(Position px: positions){
-            if((px.posx+1==p.posx&& p.posy==px.posy) || (px.posx-1==p.posx&& p.posy==px.posy) || (px.posx==p.posx&& p.posy+1==px.posy) || (px.posx==p.posx&& p.posy-1==px.posy)){
+
+    public boolean TurmisCatchAble() {
+        Position p = this.getTurmPosition();
+        ArrayList<Position> positions = this.getBauerPositions();
+        for (Position px : positions) {
+            if ((px.posx + 1 == p.posx && p.posy == px.posy) || (px.posx - 1 == p.posx && p.posy == px.posy) || (px.posx == p.posx && p.posy + 1 == px.posy) || (px.posx == p.posx && p.posy - 1 == px.posy)) {
                 return true;
             }
         }
         return false;
     }
-    public Position getCatchPosition(){
-        Position p= this.getTurmPosition();
-        ArrayList<Position> positions= this.getBauerPositions();
-        for(Position px: positions){
-            if((px.posx+1==p.posx&& p.posy==px.posy) || (px.posx-1==p.posx&& p.posy==px.posy) || (px.posx==p.posx&& p.posy+1==px.posy) || (px.posx==p.posx&& p.posy-1==px.posy)){
+
+    public Position getCatchPosition() {
+        Position p = this.getTurmPosition();
+        ArrayList<Position> positions = this.getBauerPositions();
+        for (Position px : positions) {
+            if ((px.posx + 1 == p.posx && p.posy == px.posy) || (px.posx - 1 == p.posx && p.posy == px.posy) || (px.posx == p.posx && p.posy + 1 == px.posy) || (px.posx == p.posx && p.posy - 1 == px.posy)) {
                 return px;
             }
         }
         return null;
     }
+
     /**
      * Führt den Zug aus
      *
@@ -144,8 +151,8 @@ public class Map {
             System.out.println("Error: Auf dem Zielfeld ist bereits eine Figur (Bauer) vorhanden [Zug (" + move.getX() + ", " + move.getY() + ") -> (" + move.getToX() + ", " + move.getToY() + ")]");
             System.exit(0);
         } else {
-            if(map[move.getToX()][move.getToY()]!=null &&!map[move.getToX()][move.getToY()].isWhite()){
-                isTurmGefangen=true;
+            if (map[move.getToX()][move.getToY()] != null && !map[move.getToX()][move.getToY()].isWhite()) {
+                isTurmGefangen = true;
             }
             map[move.getToX()][move.getToY()] = map[move.getX()][move.getY()];
             map[move.getX()][move.getY()] = null;
