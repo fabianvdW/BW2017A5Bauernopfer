@@ -26,4 +26,9 @@ public class Zug {
     public int getToY() {
         return toY;
     }
+
+    @Override
+    public String toString() {
+        return "[Zug (" + x + ", " + y + ") -> (" + toX + ", " + toY + ")]";
+    }
 }

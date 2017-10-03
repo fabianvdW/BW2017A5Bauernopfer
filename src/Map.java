@@ -18,6 +18,18 @@ public class Map {
         verlauf = new ArrayList<Zug>();
     }
 
+    public ArrayList<Figur> getFiguren() {
+        ArrayList<Figur> f = new ArrayList<Figur>();
+        for (int i = 0; i < 8; i++) {
+            for (int n = 0; n < 8; n++) {
+                if (map[i][n] != null) {
+                    f.add(map[i][n]);
+                }
+            }
+        }
+        return f;
+    }
+
     /**
      * Generiert eine bestimmte Anzahl an Bauern und einen Turm und setzt diese zufällig auf das Spielbrett, nachdem das Spielbrett davor zurückgesetzt wurde
      *
@@ -26,16 +38,16 @@ public class Map {
     public void spawnBauern(int anzahlDerOpferBauernDieEinfachSoDemGroßenBösenSchwarzenTurmZumFraßVorgeworfenWerden) {
         this.reset();
         //DEBUG für GUI
-        if(anzahlDerOpferBauernDieEinfachSoDemGroßenBösenSchwarzenTurmZumFraßVorgeworfenWerden == 1){
+        if (anzahlDerOpferBauernDieEinfachSoDemGroßenBösenSchwarzenTurmZumFraßVorgeworfenWerden == 1) {
             map[0][0] = new Figur(false);
             initalMap[0][0] = map[0][0];
             int i = 0;
-            doMove(new Zug(i++,0, i,0));
-            doMove(new Zug(i++,0, i,0));
-            doMove(new Zug(i++,0, i,0));
-            doMove(new Zug(i++,0, i,0));
-            doMove(new Zug(i++,0, i,0));
-            doMove(new Zug(i++,0, i,0));
+            doMove(new Zug(i++, 0, i, 0));
+            doMove(new Zug(i++, 0, i, 0));
+            doMove(new Zug(i++, 0, i, 0));
+            doMove(new Zug(i++, 0, i, 0));
+            doMove(new Zug(i++, 0, i, 0));
+            doMove(new Zug(i++, 0, i, 0));
             return;
         }
         if (anzahlDerOpferBauernDieEinfachSoDemGroßenBösenSchwarzenTurmZumFraßVorgeworfenWerden > 8 * 8 - 1) {
@@ -51,14 +63,14 @@ public class Map {
                 x = (int) Math.floor(Math.random() * 8);
                 y = (int) Math.floor(Math.random() * 8);
             } while (map[x][y] != null);
-            map[x][y] = new Figur(true);
+            map[x][y] = new Figur(true, x, y);
             initalMap[x][y] = map[x][y];
         }
         do {
             x = (int) Math.floor(Math.random() * 8);
             y = (int) Math.floor(Math.random() * 8);
         } while (map[x][y] != null);
-        map[x][y] = new Figur(false);
+        map[x][y] = new Figur(false, x, y);
         initalMap[x][y] = map[x][y];
     }
 
@@ -69,14 +81,38 @@ public class Map {
      */
     public void doMove(Zug move) {
         if (map[move.getX()][move.getY()] == null) {
-            System.out.println("Error: Da ist keine Figur, die gerückt werden könnte [Zug (" + move.getX() + ", " + move.getY() + ") -> (" + move.getToX() + ", " + move.getToY() + ")]");
+            System.out.println("Error: Da ist keine Figur, die gerückt werden könnte " + move.toString());
         } else if (map[move.getToX()][move.getToY()] != null && !map[move.getToX()][move.getToY()].isWhite()) {
-            System.out.println("Error: Auf dem Zielfeld ist bereits eine Figur (Bauer) vorhanden [Zug (" + move.getX() + ", " + move.getY() + ") -> (" + move.getToX() + ", " + move.getToY() + ")]");
+            System.out.println("Error: Auf dem Zielfeld ist bereits eine Figur (Bauer) vorhanden " + move.toString());
         } else {
-            map[move.getToX()][move.getToY()] = map[move.getX()][move.getY()];
-            map[move.getX()][move.getY()] = null;
-            verlauf.add(move);
+            // Überprüfung auf gültigen Zug
+            if (isValidBauerMove(map[move.getX()][move.getY()], move) || isValidTurmMove(map[move.getX()][move.getY()], move)) {
+                map[move.getToX()][move.getToY()] = map[move.getX()][move.getY()];
+                map[move.getToX()][move.getToY()].setPosition(move.getToX(), move.getToY());
+                map[move.getX()][move.getY()] = null;
+                verlauf.add(move);
+            } else {
+                System.out.println("Ungültiger Zug!" + move.toString());
+            }
         }
+    }
+
+    private boolean isValidBauerMove(Figur f, Zug move) {
+        int x = Math.abs(move.getX() - move.getToX());
+        int y = Math.abs(move.getY() - move.getToY());
+        return f.isWhite() && x + y < 1;
+    }
+
+    private boolean isValidTurmMove(Figur f, Zug move) {
+        int x = Math.abs(move.getX() - move.getToX());
+        int y = Math.abs(move.getY() - move.getToY());
+        return !f.isWhite() && (x == 0 || y == 0);
+    }
+
+    private boolean isValidDameMove(Figur f, Zug move) {
+        int x = Math.abs(move.getX() - move.getToX());
+        int y = Math.abs(move.getY() - move.getToY());
+        return isValidTurmMove(f, move) || x == y;
     }
 
     /**
