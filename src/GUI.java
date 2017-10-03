@@ -37,8 +37,6 @@ public class GUI extends JPanel {
         boolean color = true;
         for (int i = 0; i < 8; i++) {
             for (int n = 0; n < 8; n++) {
-                //g.setColor(Color.BLACK);
-                //g.drawRect(i * 50, n * 50, 50, 50);
                 if (color) {
                     g.setColor(new Color(255, 211, 155));
                     color = false;
@@ -55,7 +53,6 @@ public class GUI extends JPanel {
                     } else {
                         g.setColor(Color.BLACK); // Turm
                     }
-                    //g.drawOval(i * 50 + 10, n * 50 + 10, 30, 30);
                     g.fillOval(i * 50 + 10, n * 50 + 10, 30, 30);
                 }
             }

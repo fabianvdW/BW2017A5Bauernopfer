@@ -16,9 +16,12 @@ public class Map {
     public void reset() {
         map = new Figur[8][8];
         initalMap = new Figur[8][8];
-        verlauf = new ArrayList<Zug>();
+        verlauf = new ArrayList<>();
     }
 
+    /**
+     * @return Position des Turm auf dem Brett
+     */
     public Position getTurmPosition() {
         for (int i = 0; i < 8; i++) {
             for (int k = 0; k < 8; k++) {
@@ -31,8 +34,11 @@ public class Map {
         return null;
     }
 
+    /**
+     * @return Liste der Positionen der Bauern auf dem Brett
+     */
     public ArrayList<Position> getBauerPositions() {
-        ArrayList<Position> positions = new ArrayList<Position>();
+        ArrayList<Position> positions = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             for (int k = 0; k < 8; k++) {
                 if (map[i][k] != null && map[i][k].isWhite()) {
@@ -44,8 +50,8 @@ public class Map {
     }
 
     /**
-     * @param posx
-     * @param posy
+     * @param posx X-Position des Bauern
+     * @param posy Y-Position des Bauern
      */
     public void spawnBauer(int posx, int posy) {
         if (posx <= 7 && posx >= 0 && posy <= 7 && posy >= 0) {
@@ -58,6 +64,10 @@ public class Map {
         System.exit(1);
     }
 
+    /**
+     * @param posx X-Position des Turm
+     * @param posy Y-Position des Turm
+     */
     public void spawnTurm(int posx, int posy) {
         if (posx <= 8 && posx >= 0 && posy <= 8 && posy >= 0) {
             if (map[posx][posy] == null) {
@@ -72,7 +82,7 @@ public class Map {
     /**
      * Generiert eine bestimmte Anzahl an Bauern und einen Turm und setzt diese zufällig auf das Spielbrett, nachdem das Spielbrett davor zurückgesetzt wurde
      *
-     * @param anzahlBauern
+     * @param anzahlBauern Anzahl der Bauern
      */
     public void spawnBauern(int anzahlBauern) {
         this.reset();
@@ -141,7 +151,7 @@ public class Map {
     /**
      * Führt den Zug aus
      *
-     * @param move
+     * @param move Der auszuführende Zug
      */
     public void doMove(Zug move) {
         System.out.println("Führe Zug aus " + move.toString());
