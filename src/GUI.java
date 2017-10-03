@@ -17,7 +17,7 @@ public class GUI extends JPanel {
         this.t = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (atMove + 1 == map.getVerlauf().size() || map.getVerlauf().size() == 0) {
+                if (atMove == map.getVerlauf().size() || map.getVerlauf().size() == 0) {
                     System.out.println("Finished with redo");
                     t.stop();
                 } else {

@@ -144,7 +144,7 @@ public class Map {
      * @param move
      */
     public void doMove(Zug move) {
-        System.out.println("Führ Zug aus " + move.toString());
+        System.out.println("Führe Zug aus " + move.toString());
         if (map[move.getX()][move.getY()] == null) {
             System.out.println("Error: Da ist keine Figur, die gerückt werden könnte");
             System.exit(0);
