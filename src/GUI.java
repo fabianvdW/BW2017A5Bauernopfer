@@ -14,10 +14,10 @@ public class GUI extends JPanel {
         brett = m.getInitalMap();
         this.atMove = 0;
         // Initalisierung des Timers für die Visualisierung
-        this.t = new Timer(1000, new ActionListener() {
+        this.t = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (atMove + 1 == map.getVerlauf().size()) {
+                if (atMove + 1 == map.getVerlauf().size()||map.getVerlauf().size()==0) {
                     System.out.println("Finished with redo");
                     t.stop();
                 } else {
@@ -40,10 +40,10 @@ public class GUI extends JPanel {
                 //g.setColor(Color.BLACK);
                 //g.drawRect(i * 50, n * 50, 50, 50);
                 if (color) {
-                    g.setColor(Color.WHITE);
+                    g.setColor(new Color(255,211,155));
                     color = false;
                 } else {
-                    g.setColor(Color.BLACK);
+                    g.setColor(new Color(205,133,63));
                     color = true;
                 }
                 g.fillRect(i * 50, n * 50, 50, 50);
@@ -51,9 +51,9 @@ public class GUI extends JPanel {
                 // Draw Figur
                 if (brett[i][n] != null) {
                     if (brett[i][n].isWhite()) {
-                        g.setColor(Color.LIGHT_GRAY); // Weiße Figuren
+                        g.setColor(Color.WHITE); // Bauer
                     } else {
-                        g.setColor(Color.DARK_GRAY); // Schwarze Figur
+                        g.setColor(Color.BLACK); // Turm
                     }
                     //g.drawOval(i * 50 + 10, n * 50 + 10, 30, 30);
                     g.fillOval(i * 50 + 10, n * 50 + 10, 30, 30);
