@@ -77,7 +77,7 @@ public class Map {
     public void spawnBauern(int anzahlBauern) {
         this.reset();
         //DEBUG für GUI
-        /*if(anzahlDerOpferBauernDieEinfachSoDemGroßenBösenSchwarzenTurmZumFraßVorgeworfenWerden == 1){
+        /*if(anzahlBauern == 1){
             map[0][0] = new Figur(false);
             initalMap[0][0] = map[0][0];
             int i = 0;
@@ -144,11 +144,12 @@ public class Map {
      * @param move
      */
     public void doMove(Zug move) {
+        System.out.println("Führ Zug aus " + move.toString());
         if (map[move.getX()][move.getY()] == null) {
-            System.out.println("Error: Da ist keine Figur, die gerückt werden könnte [Zug (" + move.getX() + ", " + move.getY() + ") -> (" + move.getToX() + ", " + move.getToY() + ")]");
+            System.out.println("Error: Da ist keine Figur, die gerückt werden könnte");
             System.exit(0);
         } else if (map[move.getToX()][move.getToY()] != null && map[move.getToX()][move.getToY()].isWhite()) {
-            System.out.println("Error: Auf dem Zielfeld ist bereits eine Figur (Bauer) vorhanden [Zug (" + move.getX() + ", " + move.getY() + ") -> (" + move.getToX() + ", " + move.getToY() + ")]");
+            System.out.println("Error: Auf dem Zielfeld ist bereits eine Figur (Bauer) vorhanden");
             System.exit(0);
         } else {
             if (map[move.getToX()][move.getToY()] != null && !map[move.getToX()][move.getToY()].isWhite()) {

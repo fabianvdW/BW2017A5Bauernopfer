@@ -22,7 +22,7 @@ public class GUI extends JPanel {
                     t.stop();
                 } else {
                     Zug m = map.getVerlauf().get(atMove++);
-                    System.out.println("Redo: [Zug (" + m.getX() + ", " + m.getY() + ") -> (" + m.getToX() + ", " + m.getToY() + ")]");
+                    System.out.println("Redo: " + m.toString());
                     brett[m.getToX()][m.getToY()] = brett[m.getX()][m.getY()];
                     brett[m.getX()][m.getY()] = null;
                     repaint();
