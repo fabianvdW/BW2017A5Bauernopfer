@@ -9,10 +9,12 @@ public class GUI extends JPanel {
     private Timer t; // Für eine schrittweise Reproduktion der Schritte
     private int atMove;
     private JTextArea log;
+    private boolean loop;
 
-    public GUI(Map m, JTextArea l) {
+    public GUI(Map m, JTextArea tOutput, boolean loop) {
         this.map = m;
-        this.log = l;
+        this.log = tOutput;
+        this.loop = loop;
         brett = m.getInitalMap();
         this.atMove = 0;
 
@@ -20,6 +22,12 @@ public class GUI extends JPanel {
         this.t = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (atMove == map.getVerlauf().size() && loop) {
+                    System.out.println("Looping... Starting again");
+                    log.append("\nLooping... Starting again\n");
+                    atMove = 0;
+                }
+                
                 if (atMove == map.getVerlauf().size() || map.getVerlauf().size() == 0) {
                     System.out.println("Finished with redo");
                     log.append("\nDone...");
@@ -27,10 +35,9 @@ public class GUI extends JPanel {
                 } else {
                     Zug m = map.getVerlauf().get(atMove++);
                     System.out.println("Redo: " + m.toString());
-                    if(brett[m.getX()][m.getY()].isWhite()){
+                    if (brett[m.getX()][m.getY()].isWhite()) {
                         log.append("White: " + m.toString() + "\n");
-                    }
-                    else{
+                    } else {
                         log.append("\tBlack: " + m.toString() + "\n");
                     }
                     brett[m.getToX()][m.getToY()] = brett[m.getX()][m.getY()];
@@ -63,7 +70,7 @@ public class GUI extends JPanel {
                     } else {
                         g.setColor(Color.BLACK); // Turm
                     }
-                    g.fillOval( i * 50 + 10, n * 50 + 10, 30, 30);
+                    g.fillOval(i * 50 + 10, n * 50 + 10, 30, 30);
                 }
             }
             color = !color;

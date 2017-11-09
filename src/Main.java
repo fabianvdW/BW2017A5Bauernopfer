@@ -17,10 +17,10 @@ public class Main {
             }
         });
         JTextArea log = new JTextArea();
-        JScrollPane scroll = new JScrollPane (log);
+        JScrollPane scroll = new JScrollPane(log);
         f.setLayout(new GridLayout());
         f.add(scroll);
-        f.add(new GUI(m, log));
+        f.add(new GUI(m, log, false));
         //f.setSize(416, 439);
         f.setSize(816, 439);
         f.setVisible(true);
