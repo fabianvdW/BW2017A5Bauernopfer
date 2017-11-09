@@ -8,24 +8,35 @@ public class GUI extends JPanel {
     private Figur[][] brett; // Auf diesem Brett wird der ganze Verlauf erneut durchsimuliert
     private Timer t; // Für eine schrittweise Reproduktion der Schritte
     private int atMove;
+    private JTextArea log;
 
-    public GUI(Map m) {
+    public GUI(Map m, JTextArea l) {
         this.map = m;
+        this.log = l;
         brett = m.getInitalMap();
         this.atMove = 0;
+
         // Initalisierung des Timers für die Visualisierung
         this.t = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (atMove == map.getVerlauf().size() || map.getVerlauf().size() == 0) {
                     System.out.println("Finished with redo");
+                    log.append("\nDone...");
                     t.stop();
                 } else {
                     Zug m = map.getVerlauf().get(atMove++);
                     System.out.println("Redo: " + m.toString());
+                    if(brett[m.getX()][m.getY()].isWhite()){
+                        log.append("White: " + m.toString() + "\n");
+                    }
+                    else{
+                        log.append("\tBlack: " + m.toString() + "\n");
+                    }
                     brett[m.getToX()][m.getToY()] = brett[m.getX()][m.getY()];
                     brett[m.getX()][m.getY()] = null;
                     repaint();
+                    log.repaint();
                 }
             }
         });
@@ -39,11 +50,10 @@ public class GUI extends JPanel {
             for (int n = 0; n < 8; n++) {
                 if (color) {
                     g.setColor(new Color(255, 211, 155));
-                    color = false;
                 } else {
                     g.setColor(new Color(205, 133, 63));
-                    color = true;
                 }
+                color = !color;
                 g.fillRect(i * 50, n * 50, 50, 50);
 
                 // Draw Figur
@@ -53,7 +63,7 @@ public class GUI extends JPanel {
                     } else {
                         g.setColor(Color.BLACK); // Turm
                     }
-                    g.fillOval(i * 50 + 10, n * 50 + 10, 30, 30);
+                    g.fillOval( i * 50 + 10, n * 50 + 10, 30, 30);
                 }
             }
             color = !color;

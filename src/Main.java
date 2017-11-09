@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -6,16 +7,23 @@ public class Main {
     public static void main(String[] args) {
         Map m = new Map();
         //m.spawnBauern(8);
+        teilaufgabe1(m);
+
+        // Grafische Aufarbeitung des Prozesses
         JFrame f = new JFrame();
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
-        f.add(new GUI(m));
-        f.setSize(416, 439);
+        JTextArea log = new JTextArea();
+        JScrollPane scroll = new JScrollPane (log);
+        f.setLayout(new GridLayout());
+        f.add(scroll);
+        f.add(new GUI(m, log));
+        //f.setSize(416, 439);
+        f.setSize(816, 439);
         f.setVisible(true);
-        teilaufgabe1(m);
     }
 
     public static void teilaufgabe1(Map m) {
