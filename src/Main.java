@@ -4,10 +4,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Main {
+    static boolean loop;
     public static void main(String[] args) {
         Map m = new Map();
-        teilaufgabe1(m);
-
+        //teilaufgabe1(m);
+        teilaufgabe2(m);
         // Grafische Aufarbeitung des Prozesses
         JFrame f = new JFrame();
         f.addWindowListener(new WindowAdapter() {
@@ -19,13 +20,14 @@ public class Main {
         JScrollPane scroll = new JScrollPane(log);
         f.setLayout(new GridLayout());
         f.add(scroll);
-        f.add(new GUI(m, log, false));
+        f.add(new GUI(m, log, loop));
         //f.setSize(416, 439);
         f.setSize(816, 439);
         f.setVisible(true);
     }
 
     public static void teilaufgabe1(Map m) {
+        loop = false;
         //spawnen der Bauern auf der Diagonalen
         for (int i = 0; i < 8; i++) {
             m.spawnBauer(i, i);
@@ -78,6 +80,19 @@ public class Main {
             bauerZug = !bauerZug;
         }
         System.out.println("Turm gefangen!");
+    }
+
+    public static void teilaufgabe2(Map m) {
+        loop = true;
+        //spawnen der Bauern auf einer Linie
+        for (int i = 0; i < 7; i++) {
+            m.spawnBauer(i, 1);
+        }
+        m.spawnTurm(7, 0);
+        m.doMove(new Zug(6, 1, 7, 1));
+        m.doMove(new Zug(7, 0, 6, 0));
+        m.doMove(new Zug(7, 1, 6, 1));
+        m.doMove(new Zug(6, 0, 7, 0));
     }
 }
 

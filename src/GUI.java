@@ -24,7 +24,7 @@ public class GUI extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (atMove == map.verlauf.size() && loop) {
                     System.out.println("Looping... Starting again");
-                    log.append("\nLooping... Starting again\n");
+                    log.append("Looping... Starting again\n\n");
                     atMove = 0;
                 }
 
