@@ -13,6 +13,7 @@ public class Zug {
 
     @Override
     public String toString() {
+        // Ausgabe
         return "[Zug (" + x + ", " + y + ") -> (" + toX + ", " + toY + ")]";
     }
 }

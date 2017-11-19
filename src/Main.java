@@ -67,6 +67,7 @@ public class Main {
                 if (!(p2.x <= p.x && p2.y < p.y)) {
                     modulo = 0;
                 }
+                // links oder rechts
                 if (turmGezogen % 2 == modulo) {
                     m.doMove(new Zug(p.x, p.y, p.x - 1, p.y));
                 } else {

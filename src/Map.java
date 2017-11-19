@@ -10,9 +10,6 @@ public class Map {
         this.reset();
     }
 
-    /**
-     * Setzt die ganze Map zurück. Bauern müssen neu generiert werden
-     */
     public void reset() {
         map = new Figur[8][8];
         initalMap = new Figur[8][8];
@@ -109,7 +106,7 @@ public class Map {
     public void doMove(Zug move) {
         System.out.println("Führe Zug aus " + move.toString());
         if (map[move.x][move.y] == null) {
-            System.out.println("Error: Da ist keine Figur, die gerückt werden könnte");
+            System.out.println("Error: Da ist keine Figur");
             System.exit(0);
         } else if (map[move.toX][move.toY] != null && map[move.toX][move.toY].bauer) {
             System.out.println("Error: Auf dem Zielfeld ist bereits eine Figur (Bauer) vorhanden");

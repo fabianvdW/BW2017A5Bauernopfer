@@ -5,8 +5,8 @@ import javax.swing.*;
 
 public class GUI extends JPanel {
     private Map map;
-    private Figur[][] brett; // Auf diesem Brett wird der ganze Verlauf erneut durchsimuliert
-    private Timer t; // Für eine schrittweise Reproduktion der Schritte
+    private Figur[][] brett; // auf diesem Brett wird der ganze Verlauf erneut durchsimuliert
+    private Timer t; // schrittweise Reproduktion der Schritte
     private int atMove;
     private JTextArea log;
     private boolean loop;
