@@ -15,33 +15,33 @@ public class GUI extends JPanel {
         this.map = m;
         this.log = tOutput;
         this.loop = loop;
-        brett = m.getInitalMap();
+        brett = m.initalMap;
         this.atMove = 0;
 
         // Initalisierung des Timers für die Visualisierung
         this.t = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (atMove == map.getVerlauf().size() && loop) {
+                if (atMove == map.verlauf.size() && loop) {
                     System.out.println("Looping... Starting again");
                     log.append("\nLooping... Starting again\n");
                     atMove = 0;
                 }
-                
-                if (atMove == map.getVerlauf().size() || map.getVerlauf().size() == 0) {
+
+                if (atMove == map.verlauf.size() || map.verlauf.size() == 0) {
                     System.out.println("Finished with redo");
                     log.append("\nDone...");
                     t.stop();
                 } else {
-                    Zug m = map.getVerlauf().get(atMove++);
+                    Zug m = map.verlauf.get(atMove++);
                     System.out.println("Redo: " + m.toString());
-                    if (brett[m.getX()][m.getY()].isWhite()) {
+                    if (brett[m.x][m.y].bauer) {
                         log.append("White: " + m.toString() + "\n");
                     } else {
                         log.append("\tBlack: " + m.toString() + "\n");
                     }
-                    brett[m.getToX()][m.getToY()] = brett[m.getX()][m.getY()];
-                    brett[m.getX()][m.getY()] = null;
+                    brett[m.toX][m.toY] = brett[m.x][m.y];
+                    brett[m.x][m.y] = null;
                     repaint();
                     log.repaint();
                 }
@@ -65,7 +65,7 @@ public class GUI extends JPanel {
 
                 // Draw Figur
                 if (brett[i][n] != null) {
-                    if (brett[i][n].isWhite()) {
+                    if (brett[i][n].bauer) {
                         g.setColor(Color.WHITE); // Bauer
                     } else {
                         g.setColor(Color.BLACK); // Turm
