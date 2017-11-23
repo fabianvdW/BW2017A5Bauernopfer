@@ -28,7 +28,7 @@ public class Main {
 
     public static void teilaufgabe1(Map m) {
         loop = false;
-        //spawnen der Bauern auf der Diagonalen
+        //platzieren der Bauern auf der Diagonalen
         for (int i = 0; i < 8; i++) {
             m.spawnBauer(i, i);
         }
