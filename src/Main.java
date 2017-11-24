@@ -1,79 +1,107 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Main {
+    static boolean loop;
     public static void main(String[] args) {
         Map m = new Map();
-        //m.spawnBauern(8);
+        //teilaufgabe1(m);
+        teilaufgabe2(m);
+        // Grafische Aufarbeitung des Prozesses
         JFrame f = new JFrame();
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
-        f.add(new GUI(m));
-        f.setSize(416, 439);
+        JTextArea log = new JTextArea();
+        JScrollPane scroll = new JScrollPane(log);
+        f.setLayout(new GridLayout());
+        f.add(scroll);
+        f.add(new GUI(m, log, loop));
+        //f.setSize(416, 439);
+        f.setSize(816, 439);
         f.setVisible(true);
-        teilaufgabe1(m);
     }
-    public static void teilaufgabe1(Map m){
-        for(int i=0;i<8;i++){
-            m.spawnBauer(i,i);
+
+    public static void teilaufgabe1(Map m) {
+        loop = false;
+        //platzieren der Bauern auf der Diagonalen
+        for (int i = 0; i < 8; i++) {
+            m.spawnBauer(i, i);
         }
-        m.spawnTurm(0,7);
-        boolean bauerZug=true;
-        int turmGezogen=0;
-        int bauernGezogen=0;
-        int anzDurchgaenge=0;
-        System.out.println("Turm gefangen: "+m.isTurmGefangen());
-        while(!m.isTurmGefangen()){
-            if(bauerZug){
-                if(m.TurmisCatchAble()){
-                    Position p= m.getCatchPosition();
-                    m.doMove(new Zug(p.posx,p.posy,m.getTurmPosition().posx,m.getTurmPosition().posy));
-                }else {
+
+        m.spawnTurm(0, 7);
+        boolean bauerZug = true;
+        int turmGezogen = 0;
+        int bauernGezogen = 0;
+        int anzDurchgaenge = 0;
+        System.out.println("Turm gefangen: " + m.isTurmGefangen);
+        while (!m.isTurmGefangen) {
+            if (bauerZug) {
+                if (m.TurmIsCatchAble()) {
+                    Position p = m.getCatchPosition();
+                    m.doMove(new Zug(p.x, p.y, m.getTurmPosition().x, m.getTurmPosition().y));
+                } else {
+                    // Zumachen der Diagonalen zu einer Linie
                     Position p = m.getTurmPosition();
                     Position p2 = m.getBauerPositions().get(0);
-                    if (p2.posx <= p.posx && p2.posy < p.posy) {
+                    if (p2.x <= p.x && p2.y < p.y) {
                         Position p3 = m.getBauerPositions().get(bauernGezogen++);
-                        m.doMove(new Zug(p3.posx, p3.posy, p3.posx, p3.posy + 1));
+                        m.doMove(new Zug(p3.x, p3.y, p3.x, p3.y + 1));
 
                     } else {
                         Position p3 = m.getBauerPositions().get(bauernGezogen++);
-                        m.doMove(new Zug(p3.posx, p3.posy, p3.posx + 1, p3.posy));
+                        m.doMove(new Zug(p3.x, p3.y, p3.x + 1, p3.y));
                     }
                     if (bauernGezogen + anzDurchgaenge == 7) {
                         bauernGezogen = 0;
                         anzDurchgaenge++;
                     }
                 }
-            }else{
-                Position p= m.getTurmPosition();
+            } else {
+                // Der Turm bewegt sich abwechselnd nur um 1 Feld nach rechts oder links
+                Position p = m.getTurmPosition();
                 Position p2 = m.getBauerPositions().get(0);
-                int modulo=1;
-                if (!(p2.posx <= p.posx && p2.posy < p.posy)) {
-                    modulo=0;
+                int modulo = 1;
+                if (!(p2.x <= p.x && p2.y < p.y)) {
+                    modulo = 0;
                 }
-                if(turmGezogen%2==modulo){
-                    m.doMove(new Zug(p.posx,p.posy,p.posx-1,p.posy));
-                }else{
-                    m.doMove(new Zug(p.posx,p.posy,p.posx+1,p.posy));
+                // links oder rechts
+                if (turmGezogen % 2 == modulo) {
+                    m.doMove(new Zug(p.x, p.y, p.x - 1, p.y));
+                } else {
+                    m.doMove(new Zug(p.x, p.y, p.x + 1, p.y));
                 }
                 turmGezogen++;
             }
-            bauerZug=!bauerZug;
+            bauerZug = !bauerZug;
         }
         System.out.println("Turm gefangen!");
     }
+
+    public static void teilaufgabe2(Map m) {
+        loop = true;
+        //spawnen der Bauern auf einer Linie
+        for (int i = 0; i < 7; i++) {
+            m.spawnBauer(i, 1);
+        }
+        m.spawnTurm(7, 0);
+        m.doMove(new Zug(6, 1, 7, 1));
+        m.doMove(new Zug(7, 0, 6, 0));
+        m.doMove(new Zug(7, 1, 6, 1));
+        m.doMove(new Zug(6, 0, 7, 0));
+    }
 }
-class Position{
-    int posx;
-    int posy;
-    public Position(int posx, int posy){
-        this.posx=posx;
-        this.posy=posy;
+
+class Position {
+    public int x;
+    public int y;
+
+    public Position(int posx, int posy) {
+        this.x = posx;
+        this.y = posy;
     }
 }
